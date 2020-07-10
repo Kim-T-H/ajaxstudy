@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>교수 정보 호출하기</title>
+<link rel="stylesheet" href="../KTH/KTH.css">
+<script type="text/javascript" src="KTH.js"></script>
+<script type="text/javascript">
+	function loadprof(f){
+		 var params = 
+			   "column=" + f.column.value + "&find=" + f.find.value;
+		   sendRequest("KTH.jsp",params, KTHList,"POST");
+	}
+	function KTHList() {
+		   if(ajax.readyState == 4) {
+			   if(ajax.status == 200) {
+				   list.innerHTML = ajax.responseText;
+			   } else {
+				   alert("서버 오류:" + ajax.status + "=" + ajax.statusText);
+			   }
+		   }
+	   }
+
+</script>
+</head>
+<body>
+<form name="f">
+  <select name="column">
+    <option value="name">이름</option>
+    <option value="id">아이디</option>
+    <option value="position">직급</option>
+  </select>
+  <input type="text" name="find" style="width:650px;">
+  <input type="button" value="검색" onclick="loadprof(this.form)">
+</form>
+<div id="list"></div>
+</body>
+</html>

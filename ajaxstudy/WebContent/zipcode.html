@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!-- /WebContent/zipcode.html -->
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript" src="ajax2.js"></script>
+<script type="text/javascript">
+
+	
+	function resultView(xhr){
+		if(xhr.readyState==4){
+			if(xhr.status ==200){
+				jsonView(xhr.responseText);
+			}else{
+				alert("서버 오류:"+xhr.status);
+			}
+		}
+	}
+	function jsonView(data){
+		
+		htmldata="<br><table border='1'>"+"<tr><th>우편번호</th><th>읍면동</th><th>주소</th></tr>";
+		var jsondata=JSON.parse(data);
+		for(var i=0; i<jsondata.ZIP.length; i++){
+				var code=jsondata.ZIP[i].zipcode;
+				var dong=jsondata.ZIP[i].dong;
+				var addr=jsondata.ZIP[i].addr;
+		htmldata += "<tr><td>"+code+"</td><td>"+dong+"</td><td>"+addr+"</td></tr>";
+			
+		}
+		htmldata +="</table>";
+		result.innerHTML +=htmldata;
+	}
+
+</script>
+</head>
+<body>
+<input type="button" value="json 집 검색" onclick="new ajax.xhr.Request('zipcode.jsp', null, resultView, 'GET')">
+<div id="result"></div>
+
+</body>
+</html>

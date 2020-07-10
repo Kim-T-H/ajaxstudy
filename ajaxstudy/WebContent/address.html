@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- /WebContent/address.html -->
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script type="text/javascript" src="ajax.js"></script>
+<script type="text/javascript">
+	function loadxml(rtype, tag) {	//매개변수는 지역변수(함수 내부에서만 사용가능)
+		requestType = rtype;	//전역변수, var이 붙으면 지역변수가 되므로 parseXml()에서 requestType을 사용할 수 없게 됨.
+		requestTag = tag;		//전역변수
+		sendRequest("address.xml",null,parseXml,"GET");
+	}
+	function parseXml() {
+		if(ajax.readyState==4) {
+			if(ajax.status==200) {
+				if(requestType == 'all') {
+					listAllStates();
+				} else { listPartStates(); }
+			} else {
+				alert("서버 오류" + ajax.status);
+			}
+		}
+	}
+	function listAllStates() {
+		console.log(ajax.responseText);
+		//xmlDoc : 응답 받은 xml 문서의 dom 객체의 최상단 문서노드값 저장
+		var xmlDoc = ajax.responseXML;
+		//allStates : 태그이름이 state인 노드들을 [배열]의 형태로 저장 변수
+		var allStates = xmlDoc.getElementsByTagName("state");
+		//divTag : document에서 id 속성값이 result인 태그 리턴
+		var divTag = document.getElementById("result");
+		divTag.innerHTML = "서울 전체 구";
+		for(var i=0;i<allStates.length;i++) {
+			divTag.innerHTML += "<br>-"
+				+ allStates[i].childNodes[0].nodeValue;
+		}
+	}
+	function listPartStates() {
+		var xmlDoc = ajax.responseXML;
+		var divTag = document.getElementById("result");
+		var States = xmlDoc.getElementsByTagName(requestTag);
+		var a = States[0].getElementsByTagName("state");		
+		divTag.innerHTML = "서울 "+ requestType +"쪽 구";
+
+		for(var i=0;i<a.length;i++) {
+			divTag.innerHTML += "<br>-"
+				+ States[0].a[i].childNodes[0].nodeValue;
+		}
+	}
+</script>
+</head>
+<body>
+	<h1>서울의 구 정보</h1>
+	<input type="button" value="서울 전체 구" onclick="loadxml('all','all')">
+	<input type="button" value="서울 동쪽 구" onclick="loadxml('동','east')">
+	<input type="button" value="서울 서쪽 구" onclick="loadxml('서','west')">
+	<input type="button" value="서울 남쪽 구" onclick="loadxml('남','south')">
+	<input type="button" value="서울 북쪽 구" onclick="loadxml('북','north')">
+	<div id="result"></div>
+</body>
+</html>

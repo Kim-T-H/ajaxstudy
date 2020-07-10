@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!-- /WebContent/book.xml -->
+<books>
+	<book><title>홍길동전</title><author>허균</author><price>10000</price></book>
+	<book><title>자바의 정석</title><author>남궁성</author><price>28000</price></book>
+	<book><title>웹표준</title><author>댄 씨더홈</author><price>35000</price></book>
+	<book><title>오늘의 </title><author>햄버거</author><price>13000</price></book>
+	<book><title>식단은</title><author>감자탕</author><price>19000</price></book>
+	<book><title>무엇 일까?</title><author>초밥</author><price>18000</price></book>	
+</books>
